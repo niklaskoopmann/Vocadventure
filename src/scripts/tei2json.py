@@ -66,6 +66,14 @@ parser.add_argument(
     type=int,
     required=True
 )
+parser.add_argument(
+    "-n",
+    "--name",
+    help="Name for the target language to be set in output JSON",
+    type=str,
+    default="Standard Norwegian",
+    required=False
+)
 args = parser.parse_args()
 
 # extract paths from arguments
@@ -127,6 +135,7 @@ for k, g in translations:
 output_dict = { 
     "index" : args.index, 
     "tag" : args.tag,
+    "name" : args.name,
     "targetLanguage" : TARGET_LANG,
     "supportedLanguages" : [ SOURCE_LANG ],
     "isCustom" : False,
@@ -137,7 +146,7 @@ output_dict = {
 for i, cat in enumerate(categories):
 
     # set up category
-    output_dict["categories"].append({ "index" : i+1, TARGET_LANG : cat, "words" : [] })
+    output_dict["categories"].append({ "index" : i+1, SOURCE_LANG : cat, "words" : [] })
     
     # get all words for current category
     words_in_category = [x for x in new_translations if "category" in x and x["category"] == cat]
